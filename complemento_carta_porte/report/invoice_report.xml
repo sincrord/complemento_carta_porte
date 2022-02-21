@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit quotation report (from module sale) -->
+        <template id="complemento_carta_porte" inherit_id="cdfi_invoice.report_invoice_inherit_cdfi">
+        <xpath expr="//div[@name='cadenas']" position="before">
+
+        	<t t-if="o.carta_porte == True">
+				
+				<!--TABLA DE MERCANCIAS A TRASLADAR-->
+				<table class="table table-bordered">
+					<thead class="thead-light">
+						<tr><td colspan="6" style="text-align:center;padding:3px;">MERCANCIAS A TRASLADAR</td></tr>
+						<tr>
+					    	<td style="padding:2px;">Producto</td>
+					    	<td style="padding:2px;">Nombre</td>
+					    	<td style="padding:2px;">Cantidad</td>
+					    	<td style="padding:2px;">Precio Unitario</td>
+					    	<td style="padding:2px;">Peso Kg</td>
+					    	<td style="padding:2px;">Subtotal</td>
+					    </tr>
+					</thead>
+
+					<tbody>
+						<t t-foreach="o.factura_line_ids" t-as="l">
+							<tr>
+								<td><span t-field="l.product_id"/></td>
+								<td><span t-field="l.name"/></td>
+								<td><span t-field="l.quantity"/></td>
+								<td><span t-field="l.price_unit"/></td>
+								<td><span t-field="l.pesoenkg"/></td>
+								<td><span t-esc="l.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+				<!--TERMINA TABLA DE MERCANCIAS A TRASLADAR-->
+
+				<!--TABLA DE ATRIBUTOS CARTA PORTE-->
+				<table class="table table-bordered">
+					<thead class="thead-light">
+						<tr>
+							<td style="text-align:center;padding:3px;">ATRIBUTOS DE CARTA PORTE</td>
+						</tr>
+					</thead>
+					<tbody>
+						<td>
+							<strong>Tipo de transporte: </strong><span t-field="o.tipo_transporte"/><br/>
+							<strong>¿Es un transporte internacional? </strong><span t-field="o.transpinternac"/>
+							<t t-if="o.transpinternac == 'Si'">
+								<strong>¿Las mercancías ingresan o salen del territorio nacional? </strong><span t-field="o.entradasalidamerc"/><br/>
+								<strong>Vía de ingreso / salida </strong><span t-field="o.viaentradasalida"/>
+							</t>
+						</td>
+					</tbody>
+				</table>
+				<!--TERMINA TABLA DE ATRIBUTOS CARTA PORTE-->
+
+				<!--TABLA DE UBICACIONES-->
+				<table class="table table-bordered">
+					<thead class="thead-light">
+						<tr><td colspan="6" style="text-align:center;padding:3px;">UBICACIONES</td></tr>
+						<tr>
+					    	<td style="padding:2px;">Tipo de ubicación</td>
+					    	<td style="padding:2px;">Dirección</td>
+					    	<td style="padding:2px;">Fecha de salida/llegada</td>
+					    	<td style="padding:2px;">Tipo de estación</td>
+					    	<td style="padding:2px;">Número de estación</td>
+					    	<td style="padding:2px;">Distancia recorrida</td>
+					    </tr>
+					</thead>
+
+					<tbody>
+						<t t-foreach="o.ubicaciones_line_ids" t-as="l">
+							<tr>
+								<td><span t-field="l.tipoubicacion"/></td>
+								<td>
+									<span t-field="l.contacto"/> <span t-field="l.contacto.street"/> <span t-field="l.contacto.street2"/> <br/>
+									<span t-field="l.contacto.city"/> <span t-field="l.contacto.state_id.name"/> <span t-field="l.contacto.zip"/> <br/>
+									<span t-field="l.contacto.country_id.name"/>
+								</td>
+								<td><span t-field="l.fecha"/></td>
+								<td><span t-field="l.tipoestacion"/></td>
+								<td><span t-field="l.numestacion"/></td>
+								<td><span t-field="l.distanciarecorrida"/></td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+				<!--TERMINA TABLA DE UBICACIONES-->
+
+				<!--TABLA DE MERCANCIAS-->
+				<table class="table table-bordered">
+					<thead class="thead-light">
+						<tr>
+							<td colspan="3" style="text-align:center;padding:3px;">MERCANCIAS</td>
+						</tr>
+					</thead>
+					<tbody>
+						<td><strong>Peso total neto: </strong><span t-field="o.pesonetototal"/><br/></td>
+						<td><strong>Número total de mercancías: </strong><span t-field="o.numerototalmercancias"/></td>
+                        <td><strong>Cargo por tasación: </strong><span t-field="o.cargoportasacion"/></td>
+					</tbody>
+				</table>				
+				<!--TERMINA TABLA DE MERCANCIAS-->
+
+
+				<!--TABLA DE DATOS DE TRANSPORTE-->
+
+				<table class="table table-bordered" style="margin-bottom:0px;">
+					<thead class="thead-light">
+						<tr>
+							<td colspan="2" style="text-align:center;padding:3px;">DATOS DE TRANSPORTE</td>
+						</tr>
+					</thead>
+					<tbody>
+						<td style="width:50%;">
+							<strong>GENERALES</strong><br/>
+							<strong>Permiso SCT </strong><span t-field="o.permisosct"/><br/>
+							<strong>Número de permiso SCT </strong><span t-field="o.numpermisosct"/><br/>
+						</td>
+						<td style="width:50%;">
+							<strong>VEHÍCULO</strong><br/>
+							<strong>Configuración vehículo </strong><span t-field="o.autotrasporte_ids.confvehicular"/><br/>
+							<strong>Placa del vehículo </strong><span t-field="o.autotrasporte_ids.placavm"/><br/>
+							<strong>Año del vehículo </strong><span t-field="o.autotrasporte_ids.aniomodelo"/><br/>
+							<strong>Nombre de la aseguradora </strong><span t-field="o.autotrasporte_ids.nombreaseg"/><br/>
+							<strong>Número de póliza </strong><span t-field="o.autotrasporte_ids.numpoliza"/><br/>
+						</td>
+					</tbody>
+				</table>
+				<table class="table table-bordered" style="margin-top:0px;">
+					<thead class="thead-light">
+						<tr>
+							<td colspan="2" style="text-align:center;padding:3px;">FIGURAS DE TRANSPORE</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;padding:3px;width:50%;">Tipo de figura</td>
+							<td  style="text-align:center;padding:3px;width:50%;">Nombre</td>
+						</tr>
+					</thead>
+					<tbody>
+						<t t-foreach="o.figuratransporte_ids" t-as="l">
+							<tr>
+								<td><span t-field="l.tipofigura.clave"/></td>
+								<td><span t-field="l.figura_id.name"/></td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+				<!--TERMINA TABLA DE DATOS DE TRANSPORTE-->
+			</t>
+        </xpath>
+        </template>
+    </data>
+</odoo>
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <record id="tree_autotransporte_view" model="ir.ui.view">
+        <field name="name">autotransporte.tree.view</field>
+        <field name="model">cp.autotransporte</field>
+        <field name="arch" type="xml">
+        <tree string="Autotransporte">
+        	<field name="name" />
+            <field name="descripcion" />
+            <field name="confvehicular" />
+            <field name="placavm" />
+            <field name="aniomodelo" />
+         </tree> 
+       </field>
+    </record>
+   <record id="form_autotransporte_view" model="ir.ui.view">
+        <field name="name">autotransporte.form.view</field>
+        <field name="model">cp.autotransporte</field>
+        <field name="arch" type="xml">
+        <form string="Autotransporte">
+             <sheet>
+                 <div class="oe_title">
+                     <h1>
+                         <field name="name" readonly="1"/>
+                     </h1>
+                 </div>
+                 <group>
+                     <group>
+                         <field name="descripcion"/>
+                         <field name="confvehicular"/>
+                         <field name="placavm" />
+                         <field name="aniomodelo"/>
+                         <field name="nombreaseg"/>
+                         <field name="numpoliza"/>
+                         <field name="company_id" groups="base.group_multi_company"/>
+                     </group>
+                 </group>
+             </sheet>
+         </form> 
+       </field>
+    </record>
+
+    <record id="search_autotransporte_view" model="ir.ui.view">
+        <field name="name">autotransporte.search.view</field>
+        <field name="model">cp.autotransporte</field>
+        <field name="arch" type="xml">
+            <search string="Autotransporte">
+               <field name="name" />
+               <field name="descripcion" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tree_autotransporte" model="ir.actions.act_window">
+        <field name="name">Autotransporte</field>
+        <field name="res_model">cp.autotransporte</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tree_autotransporte_view" />
+        <field name="search_view_id" ref="search_autotransporte_view" />
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_ccp_autotransporte" 
+          name="Autotransporte" 
+          parent="catalogos_cfdi.catalogos_traslado_menu_principal" 
+          action="action_tree_autotransporte"
+          sequence="90"
+    />
+
+</odoo>
